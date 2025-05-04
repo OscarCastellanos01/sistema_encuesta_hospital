@@ -1,5 +1,8 @@
 @import 'tailwindcss';
+@import '../../vendor/wireui/wireui/ts/global.css';
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+@source '../../vendor/wireui/wireui';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
