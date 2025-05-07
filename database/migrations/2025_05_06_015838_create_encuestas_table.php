@@ -20,7 +20,7 @@ class CreateEncuestasTable extends Migration
             $table->boolean('finalizada')->default(false);
             $table->timestamps();
 
-            $table->unsignedBigInteger('tipo_encuesta_id')->nullable();
+            $table->foreign('tipo_encuesta_id')->references('id')->on('encuesta');
             $table->foreign('idFacilitador')->references('id')->on('users');
             $table->foreign('idArea')->references('id')->on('area');
             $table->foreign('idEspecialidad')->references('id')->on('especialidad');

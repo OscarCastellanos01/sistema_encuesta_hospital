@@ -10,16 +10,16 @@ class UserRole extends Model
 
     protected $fillable = [
         'user_id',
-        'role_id',
+        'rol_id',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function role()
+    public function rol()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'rol_id');
     }
 }

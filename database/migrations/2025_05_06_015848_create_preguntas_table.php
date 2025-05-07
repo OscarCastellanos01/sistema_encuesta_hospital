@@ -10,6 +10,7 @@ class CreatePreguntasTable extends Migration
     {
         Schema::create('pregunta', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('idencuesta');
             $table->text('textoPregunta');
             $table->foreign('idencuesta')->references('id')->on('encuesta');
             $table->tinyInteger('estado')->default(1); // 1: Activo, 0: Inactivo
