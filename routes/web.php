@@ -5,6 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/encuesta', [EncuestaController::class, 'index'])->name('encuesta.index');

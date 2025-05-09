@@ -20,6 +20,10 @@
         @stack('js')
     </head>
     <body>
-        @yield('contenido')
+        <x-drawer />
+        
+        <main>
+            @yield('contenido')
+        </main>
     </body>
 </html>
