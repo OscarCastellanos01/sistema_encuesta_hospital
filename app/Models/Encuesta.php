@@ -3,23 +3,33 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Encuesta extends Model
 {
-    protected $table = 'encuesta';
     protected $fillable = [
-        'idFacilitador', // ID of the facilitator
-        'idArea', // ID of the area
-        'edadPaciente', // Age of the patient
-        'sexoPaciente',
-        'idEspecialidad', // ID of the specialty
-        'idTipoCita', // ID of the appointment type
-        'finalizada', // Indicates if the survey is completed
-        'tipo_encuesta_id', // ID of the survey type
+        'codigoEncuesta',
+        'tituloEncuesta',
+        'descripcionEncuesta',
+        'estadoEncuesta',
+        'idArea',
+        'idTipoEncuesta',
+        'idTipoCita',
+        'idUser',
     ];
 
-    public function tipoEncuesta()
+    public function area(): BelongsTo
     {
-        return $this->belongsTo(tipo_encuesta::class, 'tipo_encuesta_id');
+        return $this->belongsTo(Area::class ,'idArea');
+    }
+
+    public function tipoEncuesta(): BelongsTo
+    {
+        return $this->belongsTo(tipo_encuesta::class, 'idTipoEncuesta');
+    }
+
+    public function tipoCita()
+    {
+        return $this->belongsTo(TipoCita::class, 'idTipoCita');
     }
 }

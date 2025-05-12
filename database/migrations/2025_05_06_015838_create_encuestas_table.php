@@ -4,33 +4,32 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEncuestasTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
-        Schema::create('encuesta', function (Blueprint $table) {
+        /**
+         * Run the migrations.
+         */
+        Schema::create('encuestas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_encuesta_id');
-            $table->unsignedBigInteger('idFacilitador');
-            $table->unsignedBigInteger('idArea');
-            $table->integer('edadPaciente')->nullable();
-            $table->tinyInteger('sexoPaciente')->nullable(); // 0: Masculino, 1: Femenino
-            $table->unsignedBigInteger('idEspecialidad');
-            $table->unsignedBigInteger('idTipoCita');
-            $table->boolean('finalizada')->default(false);
+            $table->string('codigoEncuesta');
+            $table->string('tituloEncuesta');
+            $table->string('descripcionEncuesta')->nullable();
+            $table->tinyInteger('estadoEncuesta')->default(1);
+            $table->foreignId('idArea')->references('id')->on('area');
+            $table->foreignId('idTipoEncuesta')->references('id')->on('tipo_encuesta');
+            $table->foreignId('idTipoCita')->references('id')->on('tipo_cita');
+            $table->foreignId('idUser')->references('id')->on('users');
             $table->timestamps();
-
-            $table->foreign('tipo_encuesta_id')->references('id')->on('encuesta');
-            $table->foreign('idFacilitador')->references('id')->on('users');
-            $table->foreign('idArea')->references('id')->on('area');
-            $table->foreign('idEspecialidad')->references('id')->on('especialidad');
-            $table->foreign('idTipoCita')->references('id')->on('tipo_cita');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('encuesta');
+        Schema::dropIfExists('encuestas');
     }
-}
-
+};
