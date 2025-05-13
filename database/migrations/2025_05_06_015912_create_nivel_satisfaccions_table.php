@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('nivel_satisfaccion', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('nivelSatisfaccion');
+            $table->string('emojiSatisfaccion', 4);
             $table->timestamps();
         });
     }

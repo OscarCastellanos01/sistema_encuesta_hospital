@@ -19,6 +19,7 @@
             <a 
                 href="{{ route('encuesta.create') }}"
                 class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition bg-gray-200 text-primary-700 hover:bg-gray-300"
+                title="Crear encuesta"
             >
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -44,20 +45,21 @@
                     <li class="flex items-center justify-between py-4">
                         <div class="flex items-start space-x-4">
 
-                            <x-avatar 
+                            {{-- <x-avatar 
                                 :label="substr($encuesta->tituloEncuesta, 0, 2)" 
                                 size="md" 
                                 class="bg-blue-100 text-blue-700" 
-                            />
+                            /> --}}
 
                             <div class="space-y-1">
                                 <div class="flex items-baseline space-x-2">
 
                                     <x-mini-button 
-                                        href="#" 
+                                        href="{{ route('encuesta.edit', $encuesta) }}" 
                                         rounded 
                                         flat 
                                         warning
+                                        title="Editar encuesta"
                                     >
                                         <svg 
                                             xmlns="http://www.w3.org/2000/svg" 
@@ -95,6 +97,9 @@
                                     {{ $encuesta->tipoEncuesta->nombreTipoEncuesta }}, 
                                     {{ $encuesta->tipoCita->tipoCita }}
                                 </p>
+                                <p class="text-xs text-gray-400">
+                                    Total respuestas: {{ $encuesta->respuestas_count }}
+                                </p>
 
                                 {{-- Estado --}}
                                 @if($encuesta->estadoEncuesta)
@@ -106,8 +111,18 @@
                         </div>
 
                         <div class="flex space-x-2">
-                            <x-mini-button 
-                                href="#"
+                            {{-- <x-mini-button 
+                                href="{{ route('encuesta.view', $encuesta) }}"
+                                rounded 
+                                flat 
+                                secondary
+                                title="Ver respuestas"
+                            >
+                                {{ $encuesta->respuestas_count }}
+                            </x-mini-button> --}}
+
+                            <x-mini-button
+                                href="{{ route('encuesta.view', $encuesta) }}"
                                 rounded 
                                 flat 
                                 green 
@@ -116,10 +131,11 @@
                             />
 
                             <x-mini-button 
-                                href="#"
+                                href="{{ route('encuesta.response', $encuesta) }}"
                                 rounded 
                                 flat 
                                 blue
+                                title="Copiar enlace encuesta"
                             >
                                 <svg 
                                     xmlns="http://www.w3.org/2000/svg" 

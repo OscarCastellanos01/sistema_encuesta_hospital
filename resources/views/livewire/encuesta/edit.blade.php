@@ -14,7 +14,6 @@
         @endif
   
         <form wire:submit.prevent="save" class="space-y-8">
-    
             <div class="grid gap-4 md:grid-cols-2">
                 <div>
                     <x-input 
@@ -38,79 +37,76 @@
     
             <div class="grid gap-4 md:grid-cols-3">
                 <div>
-                    <x-select 
+                    <x-native-select
                         label="Área"
-                        placeholder="Selecciona área"
-                        wire:model.defer="idArea"
+                        wire:model="idArea"
                     >
+                        <option value="" disabled>Selecciona área</option>
                         @foreach($areas as $area)
-                            <x-select.option 
-                                value="{{ $area->id }}"
-                                label="{{ $area->nombreArea }}" 
-                            />
+                            <option value="{{ $area->id }}">
+                                {{ $area->nombreArea }}
+                            </option>
                         @endforeach
-                    </x-select>
-                    @error('idArea')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
+                    </x-native-select>
+                    @error('idArea') 
+                        <span class="text-xs text-red-600">{{ $message }}</span> 
                     @enderror
                 </div>
-    
                 <div>
-                    <x-select 
+                    <x-native-select
                         label="Tipo de Encuesta"
-                        placeholder="Selecciona tipo"
-                        wire:model.defer="idTipoEncuesta"
+                        wire:model="idTipoEncuesta"
                     >
+                        <option value="" disabled>Selecciona tipo de encuesta</option>
                         @foreach($tiposEncuesta as $t)
-                            <x-select.option 
-                                value="{{ $t->id }}"
-                                label="{{ $t->nombreTipoEncuesta }}" 
-                            />
+                            <option value="{{ $t->id }}">
+                                {{ $t->nombreTipoEncuesta }}
+                            </option>
                         @endforeach
-                    </x-select>
-                    @error('idTipoEncuesta')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
+                    </x-native-select>
+                    @error('idTipoEncuesta') 
+                        <span class="text-xs text-red-600">{{ $message }}</span> 
                     @enderror
                 </div>
-    
                 <div>
-                    <x-select 
+                    <x-native-select
                         label="Tipo de Cita"
-                        placeholder="Selecciona cita"
-                        wire:model.defer="idTipoCita"
+                        wire:model="idTipoCita"
                     >
+                        <option value="" disabled>Selecciona tipo de cita</option>
                         @foreach($tiposCita as $tc)
-                            <x-select.option 
-                                value="{{ $tc->id }}"
-                                label="{{ $tc->tipoCita }}" 
-                            />
+                            <option value="{{ $tc->id }}">
+                                {{ $tc->tipoCita }}
+                            </option>
                         @endforeach
-                    </x-select>
+                    </x-native-select>
                     @error('idTipoCita')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
+                        <span class="text-xs text-red-600">{{ $message }}</span> 
                     @enderror
                 </div>
             </div>
-    
+
             <div class="space-y-6">
                 <div class="flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Preguntas</h2>
                     <x-button 
                         flat 
                         icon="plus" 
-                        label="Añadir Pregunta"
+                        label="Añadir Pregunta" 
                         wire:click.prevent="addQuestion" 
                     />
                 </div>
     
                 <div class="grid gap-6">
                     @foreach($questions as $idx => $q)
-                        <div class="bg-white rounded-xl p-6 shadow-sm flex flex-col space-y-4
-                                {{ $errors->has("questions.{$idx}.titulo") ? 'ring-2 ring-red-400' : '' }}">
+                        <div class="bg-white rounded-xl p-6 shadow-sm flex flex-col space-y-4 {{ $errors->has("questions.{$idx}.titulo") ? 'ring-2 ring-red-400' : '' }}">
                             
+                            @if($q['id'])
+                                <input type="hidden" wire:model.defer="questions.{{ $idx }}.id" />
+                            @endif
+            
                             <x-input 
                                 label="Pregunta {{ $idx + 1 }}"
-                                placeholder="Escribe la pregunta"
                                 wire:model.defer="questions.{{ $idx }}.titulo"
                             />
                             @error("questions.{$idx}.titulo")
@@ -119,20 +115,10 @@
             
                             <div class="flex items-center space-x-2">
                                 <x-toggle 
-                                    label="Estado"
+                                    label="Activo"
                                     on-label="Sí"
                                     off-label="No"
                                     wire:model.defer="questions.{{ $idx }}.estado" 
-                                />
-                            </div>
-            
-                            <div class="flex justify-end">
-                                <x-button 
-                                    flat 
-                                    negative 
-                                    icon="trash"
-                                    title="Eliminar pregunta"
-                                    wire:click.prevent="removeQuestion({{ $idx }})" 
                                 />
                             </div>
                         </div>
@@ -143,9 +129,9 @@
             <div class="flex justify-end">
                 <x-button 
                     primary 
-                    label="Crear Encuesta" 
+                    label="Actualizar Encuesta" 
                     type="submit"
-                    spinner="save"
+                    spinner="save" 
                     spinner-target="save"
                     wire:loading.attr="disabled" 
                 />

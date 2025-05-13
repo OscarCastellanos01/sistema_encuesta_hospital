@@ -12,7 +12,7 @@ class Index extends Component
 
     public function render()
     {
-        $encuestas = Encuesta::paginate(10);
+        $encuestas = Encuesta::withCount('respuestas')->paginate(10);
 
         return view('livewire.encuesta.index', [
             'encuestas' => $encuestas

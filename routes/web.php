@@ -11,4 +11,7 @@ Route::get('/', function () {
 // Route::get('/encuesta', [EncuestaController::class, 'index'])->name('encuesta.index');
 Route::get('/encuestas', [EncuestaController::class, 'index'])->name('encuesta.index');
 Route::get('/encuestas/crear', [EncuestaController::class, 'create'])->name('encuesta.create');
+Route::get('/encuesta/{encuesta}/editar', [EncuestaController::class, 'edit'])->name('encuesta.edit');
+Route::get('/encuesta/{encuesta}/respuestas', [EncuestaController::class, 'view'])->name('encuesta.view');
+Route::get('/encuesta/{encuesta}/responder', [EncuestaController::class, 'response'])->name('encuesta.response');
 Route::get('/tipo-encuesta', [TipoEncuestaController::class, 'index'])->name('tipoEncuesta.index');

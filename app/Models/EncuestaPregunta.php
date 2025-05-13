@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EncuestaPregunta extends Model
 {
@@ -11,4 +12,9 @@ class EncuestaPregunta extends Model
         'tituloPregunta',
         'estadoPregunta',
     ];
+
+    public function encuesta(): BelongsTo
+    {
+        return $this->belongsTo(Encuesta::class ,'idEncuesta');
+    }
 }

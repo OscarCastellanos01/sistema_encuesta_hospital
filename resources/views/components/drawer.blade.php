@@ -117,7 +117,13 @@
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
                     {{ 
-                        request()->routeIs(['encuesta.index', 'encuesta.create']) 
+                        request()->routeIs([
+                            'encuesta.index',
+                            'encuesta.create',
+                            'encuesta.response',
+                            'encuesta.edit',
+                            'encuesta.view'
+                        ]) 
                         ? 'bg-gray-200 text-primary-700' 
                         : 'text-gray-700 hover:bg-gray-100' 
                     }}

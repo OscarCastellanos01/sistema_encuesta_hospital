@@ -9,6 +9,7 @@ class nivel_satisfaccion extends Model
     protected $table = 'nivel_satisfaccion';
 
     protected $fillable = [
-        'nivelSatisfaccion'
+        'nivelSatisfaccion',
+        'emojiSatisfaccion',
     ];
 }
