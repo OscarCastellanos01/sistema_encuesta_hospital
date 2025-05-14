@@ -19,7 +19,7 @@
         
         @stack('js')
     </head>
-    <body>
+    <body class="h-full bg-gradient-to-tr from-[#e8f1f5] to-[#dfe9ef] bg-fixed">
         <x-drawer />
         
         <main>

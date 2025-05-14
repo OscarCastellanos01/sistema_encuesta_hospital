@@ -10,7 +10,9 @@ return new class extends Migration
     {
         Schema::create('nivel_satisfaccion', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('nivelSatisfaccion');
+            $table->tinyInteger('codigoNivelSatisfaccion');
+            $table->string('nombreNivelSatisfaccion', 100);
+            $table->tinyInteger('estadoNivelSatisfaccion')->default(1);
             $table->timestamps();
         });
     }
