@@ -11,6 +11,7 @@ class nivel_satisfaccion extends Model
     protected $fillable = [
         'codigoNivelSatisfaccion',
         'nombreNivelSatisfaccion',
-        'estadoNivelSatisfaccion'
+        'estadoNivelSatisfaccion',
+        'emojiSatisfaccion',
     ];
 }

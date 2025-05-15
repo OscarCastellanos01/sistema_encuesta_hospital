@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->tinyInteger('codigoNivelSatisfaccion');
             $table->string('nombreNivelSatisfaccion', 100);
+            $table->string('emojiSatisfaccion', 4);
             $table->tinyInteger('estadoNivelSatisfaccion')->default(1);
             $table->timestamps();
         });
