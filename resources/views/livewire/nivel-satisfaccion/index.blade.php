@@ -14,13 +14,34 @@
       <form 
         wire:submit.prevent="save"
         class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 items-end"
-      >
-        <div class="md:col-span-3">
-          <x-input
-            label="Nivel de Satisfacción"
-            placeholder="Escribe el nombre…"
-            wire:model.defer="nombreNivelSatisfaccion"
-          />
+      >  
+        <div class="md:col-span-2">
+         <x-input
+           label="Nivel de Satisfacción"
+           placeholder="Escribe el nombre…"
+           wire:model.defer="nombreNivelSatisfaccion"
+         />
+         @error('nombreNivelSatisfaccion')
+           <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+         @enderror
+        </div>
+
+        <div class="md:col-span-1">
+          <label class="block text-sm font-medium mb-1">Emoji</label>
+          <select
+           wire:model.defer="selectedCodigo"
+            class="w-full border rounded px-3 py-2"
+          >
+            <option value="">Selecciona un nivel…</option>
+            @foreach($options as $code => $opt)
+              <option value="{{ $code }}">
+                {{ $opt['emoji'] }}
+              </option>
+            @endforeach
+          </select>
+          @error('selectedCodigo')
+            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
+          @enderror
         </div>
 
         <div class="flex items-center">
@@ -51,7 +72,7 @@
           <li class="flex items-center justify-between py-4">
             <div class="flex items-center">
               <x-avatar 
-                :label="substr($nivel->nombreNivelSatisfaccion, 0, 1)" 
+                :label="($nivel->emojiSatisfaccion)" 
                 size="md" 
                 class="mr-4 bg-indigo-100 text-indigo-700" 
               />

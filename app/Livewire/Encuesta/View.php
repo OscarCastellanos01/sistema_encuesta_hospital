@@ -117,7 +117,7 @@ class View extends Component
             'estadoPregunta'  => 1,
         ])->get();
 
-        $satisfactions = nivel_satisfaccion::pluck('emojiSatisfaccion', 'nivelSatisfaccion')->toArray();
+        $satisfactions = nivel_satisfaccion::pluck('emojiSatisfaccion', 'nombreNivelSatisfaccion')->toArray();
 
         $especialidades = Especialidad::all();
 

@@ -11,13 +11,23 @@ class Index extends Component
     use WithPagination;
 
     public $nombreNivelSatisfaccion = '';
+    public $selectedCodigo;
     public $estadoNivelSatisfaccion = true;
     public $satisfaccionId = null;
+
+    public $options = [
+        1 => ['label'=>'Muy insatisfecho', 'emoji'=>'😡'],
+        2 => ['label'=>'Insatisfecho',      'emoji'=>'😔'],
+        3 => ['label'=>'Neutral',           'emoji'=>'😐'],
+        4 => ['label'=>'Satisfecho',        'emoji'=>'😊'],
+        5 => ['label'=>'Muy satisfecho',    'emoji'=>'😁'],
+    ];
 
     protected $paginationTheme = 'tailwind';
 
     protected $rules = [
-        'nombreNivelSatisfaccion' => 'required|string|max:100',
+        'nombreNivelSatisfaccion' =>'required|string|max:100',
+        'selectedCodigo' => 'required|in:1,2,3,4,5',
         'estadoNivelSatisfaccion'             => 'boolean',
     ];
 
@@ -27,8 +37,9 @@ class Index extends Component
 
         $ultimaEmision = Nivel_Satisfaccion::max('id') + 1;
         $data = [
-            'codigoNivelSatisfaccion' => $ultimaEmision,
+            'codigoNivelSatisfaccion' => $this->selectedCodigo,
             'nombreNivelSatisfaccion' => $this->nombreNivelSatisfaccion,
+            'emojiSatisfaccion'       => $this->options[$this->selectedCodigo]['emoji'],
             'estadoNivelSatisfaccion' => $this->estadoNivelSatisfaccion,
         ];
 
@@ -48,15 +59,17 @@ class Index extends Component
     {
         $nivel = Nivel_Satisfaccion::findOrFail($id);
         $this->satisfaccionId     = $id;
-        $this->nombreNivelSatisfaccion = $nivel->nombreNivelSatisfaccion;
-        $this->estadoNivelSatisfaccion             = (bool)$nivel->estadoNivelSatisfaccion;
+        $this->nombreNivelSatisfaccion =$nivel->nombreNivelSatisfaccion;
+        $this->selectedCodigo   = $nivel->codigoNivelSatisfaccion;
+        $this->estadoNivelSatisfaccion = (bool)$nivel->estadoNivelSatisfaccion;
     }
 
     private function resetForm()
     {
-        $this->nombreNivelSatisfaccion = '';
-        $this->estadoNivelSatisfaccion             = true;
-        $this->satisfaccionId     = null;
+        $this->nombreNivelSatisfaccion = '';       
+        $this->selectedCodigo          = null;
+        $this->estadoNivelSatisfaccion = true;
+        $this->satisfaccionId          = null;
     }
 
     public function render()
