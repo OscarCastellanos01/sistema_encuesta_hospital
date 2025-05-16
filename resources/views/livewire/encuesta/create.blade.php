@@ -82,7 +82,7 @@
                         @foreach($tiposCita as $tc)
                             <x-select.option 
                                 value="{{ $tc->id }}"
-                                label="{{ $tc->tipoCita }}" 
+                                label="{{ $tc->nombreTipoCita }}" 
                             />
                         @endforeach
                     </x-select>

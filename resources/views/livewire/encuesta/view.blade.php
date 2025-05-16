@@ -12,7 +12,7 @@
         </div>
 
         <p class="text-slate-700 mb-10">
-            Ayúdenos a mejorar la calidad de nuestro servicio respondiendo esta breve encuesta.
+            Ayúdenos a mejorar la calidad de nuestro servicio respondiendo esta encuesta.
         </p>
 
         {{-- Bloque de mensajes --}}

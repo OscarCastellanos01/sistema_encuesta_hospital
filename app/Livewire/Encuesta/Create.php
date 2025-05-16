@@ -96,14 +96,14 @@ class Create extends Component
 
     public function render()
     {
-        $areas = Area::orderBy('nombreArea')->get();
-        $tiposEncuesta = tipo_encuesta::orderBy('nombreTipoEncuesta')->get();
-        $tipoCita = TipoCita::orderBy('tipoCita')->get();
+        $areas = Area::orderBy('nombreArea')->where('estado', 1)->get();
+        $tiposEncuesta = tipo_encuesta::orderBy('nombreTipoEncuesta')->where('estado', 1)->get();
+        $tiposCita = TipoCita::orderBy('nombreTipoCita')->where('estadoTipoCita', 1)->get();
 
         return view('livewire.encuesta.create', [
             'areas' => $areas,
             'tiposEncuesta' => $tiposEncuesta,
-            'tiposCita' => $tipoCita,
+            'tiposCita' => $tiposCita,
         ]);
     }
 }

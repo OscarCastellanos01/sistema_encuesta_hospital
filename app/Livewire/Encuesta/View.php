@@ -117,9 +117,8 @@ class View extends Component
             'estadoPregunta'  => 1,
         ])->get();
 
-        $satisfactions = nivel_satisfaccion::all();
-
-        $especialidades = Especialidad::all();
+        $satisfactions = nivel_satisfaccion::where('estadoNivelSatisfaccion', 1)->get();
+        $especialidades = Especialidad::orderBy('nombreEspecialidad')->where('estadoEspecialidad', 1)->get();
 
         return view('livewire.encuesta.view', [
             'preguntas' => $preguntas,
