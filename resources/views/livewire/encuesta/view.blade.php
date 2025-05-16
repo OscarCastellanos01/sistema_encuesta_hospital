@@ -84,17 +84,17 @@
                         </p>
                 
                         <div class="flex items-center justify-between">
-                            @foreach ($satisfactions as $nivel => $emoji)
+                            @foreach ($satisfactions as $satisfaccion)
                                 <button
                                     type="button"
-                                    wire:click="toggleAnswer({{ $pregunta->id }}, {{ $nivel }})"
+                                    wire:click="toggleAnswer({{ $pregunta->id }}, {{ $satisfaccion->codigoNivelSatisfaccion }})"
                                     class="text-4xl transition
-                                        {{ (isset($answers[$pregunta->id]) && $answers[$pregunta->id] === $nivel)
+                                        {{ (isset($answers[$pregunta->id]) && $answers[$pregunta->id] === $satisfaccion->codigoNivelSatisfaccion)
                                             ? 'opacity-100'
                                             : 'opacity-40' }}
                                         cursor-pointer"
                                 >
-                                    {{ $emoji }}
+                                    {{ $satisfaccion->emojiSatisfaccion }}
                                 </button>
                             @endforeach
                         </div>

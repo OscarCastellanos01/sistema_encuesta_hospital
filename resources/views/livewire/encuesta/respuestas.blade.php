@@ -102,7 +102,7 @@
                                                         {{ $det->nivelSatisfaccion->emojiSatisfaccion }}
                                                     </span>
                                                     <span class="text-sm text-gray-700">
-                                                        {{ $faceLabels[$det->nivelSatisfaccion->nombreNivelSatisfaccion] }}
+                                                        {{ $det->nivelSatisfaccion->nombreNivelSatisfaccion }}
                                                     </span>
                                                 </div>
                                             </li>

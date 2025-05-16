@@ -41,7 +41,7 @@
 
         <div class="mt-6 overflow-y-auto" style="max-height: 400px;">
             <ul class="divide-y divide-gray-200">
-                @foreach($encuestas as $encuesta)
+                @forelse($encuestas as $encuesta)
                     <li class="flex items-center justify-between py-4">
                         <div class="flex items-start space-x-4">
 
@@ -155,8 +155,12 @@
                                 </svg>
                             </x-mini-button>
                         </div>
+                    </li>                    
+                @empty
+                    <li class="text-center text-gray-500 py-4">
+                        No hay encuestas registradas.
                     </li>
-                @endforeach
+                @endforelse
             </ul>
         </div>
         <div>

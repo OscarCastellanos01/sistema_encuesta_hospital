@@ -16,13 +16,6 @@ class Respuestas extends Component
     public $expandedId;
     public $dateFrom;
     public $dateTo;
-    public array $faceLabels = [
-        1 => 'Muy insatisfecho',
-        2 => 'Insatisfecho',
-        3 => 'Neutral',
-        4 => 'Satisfecho',
-        5 => 'Muy satisfecho',
-    ];
 
     public function mount(Encuesta $encuesta)
     {
