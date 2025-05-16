@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\TipoCitaController;
 use App\Http\Controllers\TipoEncuestaController;
+use App\Models\TipoCita;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,3 +27,4 @@ Route::get('/encuesta/{encuesta}/editar', [EncuestaController::class, 'edit'])->
 Route::get('/encuesta/{encuesta}/respuestas', [EncuestaController::class, 'view'])->name('encuesta.view');
 Route::get('/encuesta/{encuesta}/responder', [EncuestaController::class, 'response'])->name('encuesta.response');
 Route::get('/tipo-encuesta', [TipoEncuestaController::class, 'index'])->name('tipoEncuesta.index');
+Route::get('/tipo-citas', [TipoCitaController::class, 'index'])->name('tipoCita.index');

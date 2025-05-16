@@ -10,7 +10,8 @@ class CreateTipoCitasTable extends Migration
     {
         Schema::create('tipo_cita', function (Blueprint $table) {
             $table->id();
-            $table->string('tipoCita', 100);
+            $table->string('nombreTipoCita', 100);
+            $table->tinyInteger('estadoTipoCita')->default(1);
             $table->timestamps();
         });
     }
