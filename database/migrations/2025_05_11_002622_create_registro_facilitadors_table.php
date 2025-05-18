@@ -15,7 +15,7 @@ class CreateRegistroFacilitadorsTable extends Migration
             $table->timestamps();
 
             $table->foreign('idUsuario')->references('id')->on('users');
-            $table->foreign('idEncuesta')->references('id')->on('encuestas');
+            $table->foreign('idEncuesta')->references('id')->on('encuesta_respuestas');
         });
     }
 

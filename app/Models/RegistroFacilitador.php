@@ -21,6 +21,6 @@ class RegistroFacilitador extends Model
 
     public function encuesta(): BelongsTo
     {
-        return $this->belongsTo(Encuesta::class, 'idEncuesta');
+        return $this->belongsTo(EncuestaRespuesta::class, 'idEncuesta');
     }
 }

@@ -98,7 +98,7 @@ class View extends Component
 
             RegistroFacilitador::create([
                 'idUsuario' => Auth::id(),
-                'idEncuestaRespuesta' => $encuestaRespuesta->id
+                'idEncuesta' => $encuestaRespuesta->id
             ]);
             
             $this->resetForm();
