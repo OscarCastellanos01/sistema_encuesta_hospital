@@ -2,20 +2,26 @@
 
 use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TipoCitaController;
 use App\Http\Controllers\TipoEncuestaController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuth;
 use App\Models\TipoCita;
 use Illuminate\Support\Facades\Route;
 
 // LOGIN como vista principal
-Route::get('/', [SessionController::class, 'create'])->middleware('guest')->name('login');
+Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('/login', [SessionController::class, 'store'])->name('login.store');
 Route::post('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('login.destroy');
 
 Route::middleware(['auth'])->group(function () {
+    // ==============================
+    // Dashboard
+    // ==============================
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // ==============================
     // MÓDULO ÁREAS
@@ -50,5 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/encuesta/{encuesta}/editar', [EncuestaController::class, 'edit'])->name('encuesta.edit');
     Route::get('/encuesta/{encuesta}/respuestas', [EncuestaController::class, 'view'])->name('encuesta.view');
     Route::get('/encuesta/{encuesta}/responder', [EncuestaController::class, 'response'])->name('encuesta.response');
+
+
+    Route::get('/usuarios', [UserController::class, 'index'])->name('user.index');
+
 });
 

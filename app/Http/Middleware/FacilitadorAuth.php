@@ -16,12 +16,14 @@ class FacilitadorAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
-            if(Auth::user()->idRol == 2){ //El numero 3 es el rol de admin
-                return $next($request);
-            }
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        return redirect()->to('/denied');
+        if (Auth::user()->id_rol == 2) {
+            return $next($request);
+        }
+
+        abort(403, 'Acceso denegado!!!');
     }
 }

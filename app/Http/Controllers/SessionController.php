@@ -28,7 +28,7 @@ class SessionController extends Controller
         } elseif ($rol == 2) {
             return redirect()->route('encuesta.index');
         } elseif ($rol == 3) {
-            return redirect()->route('encuesta.index');
+            return redirect()->route('dashboard');
         } else {
             return redirect()->to('/');
         }
