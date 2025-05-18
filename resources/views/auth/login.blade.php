@@ -49,12 +49,11 @@
                     icon="lock-closed"
                     required
                 />
-                @if ($errors->any())
-                    <x-alert :title="'Error'" variant="error" class="mb-4">
-                        {{ $errors->first('message') }}
-                    </x-alert>
+                @if (session()->has('error'))
+                    <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">
+                        {{ session('error') }}
+                    </div>
                 @endif
-
                 <x-button
                     type="submit"
                     primary label="Ingresar"

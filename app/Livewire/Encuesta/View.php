@@ -8,6 +8,8 @@ use App\Models\EncuestaRespuesta;
 use App\Models\EncuestaRespuestaDetalle;
 use App\Models\Especialidad;
 use App\Models\nivel_satisfaccion;
+use App\Models\RegistroFacilitador;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -73,7 +75,7 @@ class View extends Component
             $encuestaRespuesta = EncuestaRespuesta::create([
                 'codigoEncuestaRespuesta' => 'ER-' . str_pad($ultimaEmision, 5, '0', STR_PAD_LEFT),
                 'idEncuesta' => $this->encuesta->id,
-                'idFacilitador' => 1,
+                'idFacilitador' => Auth::id(),
                 'idEspecialidad' => $this->especialidad,
                 'edadPaciente' => $this->edadPaciente,
                 'sexoPaciente' => $this->sexoPaciente
@@ -94,6 +96,11 @@ class View extends Component
 
             EncuestaRespuestaDetalle::insert($detalleRespuesta);
 
+            RegistroFacilitador::create([
+                'idUsuario' => Auth::id(),
+                'idEncuestaRespuesta' => $encuestaRespuesta->id
+            ]);
+            
             $this->resetForm();
             session()->flash('success', 'Guardado correctamente');
             DB::commit();
