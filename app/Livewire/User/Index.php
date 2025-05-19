@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\user;
+namespace App\Livewire\User;
 
 use App\Models\User;
 use App\Models\Role;
@@ -50,8 +50,15 @@ class Index extends Component
 
     public function render()
     {
+        $usuarios = User::with('rol')
+            ->whereHas('rol', function($query) {
+                $query->where('estado', 0);
+            })
+            ->get();
+
         return view('livewire.user.index', [
-            'usuarios' => User::with('rol')->get(), // o paginate si deseas
+            'usuarios' => $usuarios,
         ]);
     }
+
 }

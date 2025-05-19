@@ -18,7 +18,8 @@ class Create extends Component
 
     public function mount()
     {
-        $this->roles = Role::all();
+        $this->roles = Role::where('estado', '<>', '1')->get();
+
     }
 
     public function save()
@@ -42,6 +43,7 @@ class Create extends Component
         session()->flash('success', 'Usuario creado correctamente.');
 
         $this->reset(['name', 'email', 'password', 'estado_usuario', 'id_rol']);
+        $this->redirectRoute('user.index');
     }
 
     public function render()
