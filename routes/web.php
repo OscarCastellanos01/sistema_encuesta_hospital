@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/usuarios', [UserController::class, 'index'])->name('user.index');
+    Route::get('/usuarios/crear', [UserController::class, 'create'])->name('user.create');
+    Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
 
 });
 

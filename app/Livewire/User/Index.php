@@ -50,7 +50,8 @@ class Index extends Component
 
     public function render()
     {
-        $roles = \App\Models\Role::all();
-        return view('livewire.user.index', compact('roles'));
+        return view('livewire.user.index', [
+            'usuarios' => User::with('rol')->get(), // o paginate si deseas
+        ]);
     }
 }
