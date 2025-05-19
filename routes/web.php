@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\EncuestaController;
-use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TipoCitaController;
 use App\Http\Controllers\TipoEncuestaController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\AdminAuth;
-use App\Models\TipoCita;
 use Illuminate\Support\Facades\Route;
 
 // LOGIN como vista principal

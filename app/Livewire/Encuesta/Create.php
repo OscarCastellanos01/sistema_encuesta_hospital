@@ -7,6 +7,7 @@ use App\Models\Encuesta;
 use App\Models\EncuestaPregunta;
 use App\Models\tipo_encuesta;
 use App\Models\TipoCita;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -72,7 +73,7 @@ class Create extends Component
                 'idArea' => $this->idArea,
                 'idTipoEncuesta' => $this->idTipoEncuesta,
                 'idTipoCita' => $this->idTipoCita,
-                'idUser' => 1,
+                'idUser' => Auth::id(),
             ]);
 
             foreach ($this->questions as $q) {

@@ -18,7 +18,7 @@ class SessionController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (!Auth::attempt($credentials)) {
-            return back()->with('error', 'El correo o la contraseña es incorrecto...');
+            return back()->with('error', 'El correo o la contraseña es incorrecto.');
         }
 
         $rol = Auth::user()->id_rol;

@@ -46,14 +46,14 @@
             <a href="{{ route('dashboard') }}"
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
-                    {{ request()->routeIs('home') ? 'bg-gray-200 text-primary-700' : 'text-gray-700 hover:bg-gray-100' }}
+                    {{ request()->routeIs('dashboard') ? 'bg-gray-200 text-primary-700' : 'text-gray-700 hover:bg-gray-100' }}
                 ">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 9.75L12 3l9 6.75v10.5a.75.75 0 01-.75.75h-5.25v-6.75H9v6.75H3.75a.75.75 0 01-.75-.75V9.75z" />
                 </svg>
-                <span>Home</span>
+                <span>Dashboard</span>
             </a>
 
             <a
@@ -61,7 +61,7 @@
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
                     {{
-                        request()->routeIs('tipoCita.index')
+                        request()->routeIs('user.index')
                         ? 'bg-gray-200 text-primary-700'
                         : 'text-gray-700 hover:bg-gray-100'
                     }}
