@@ -7,6 +7,7 @@ use App\Http\Controllers\TipoCitaController;
 use App\Http\Controllers\TipoEncuestaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BitacoraController;
 
 // LOGIN como vista principal
 Route::get('/', [SessionController::class, 'create'])->name('login');
@@ -60,4 +61,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
 
 });
+
+    // Dashboard
+    // ==============================
+    Route::get('/BTC', [BitacoraController::class, 'index'])->name('bitacora');
+
 
