@@ -10,6 +10,12 @@ class EncuestaRespuestaDetalle extends Model
     protected $fillable = [
         'idEncuestaRespuesta',
         'idPregunta',
+        'respuestaTexto',
+        'respuestaEntero',
+        'respuestaFecha',
+        'respuestaHora',
+        'respuestaFechaHora',
+        'respuestaOpcion',
         'idNivelSatisfaccion',
     ];
 

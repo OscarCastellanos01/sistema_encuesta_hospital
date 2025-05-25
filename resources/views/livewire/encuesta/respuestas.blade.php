@@ -98,12 +98,28 @@
                                                     {{ $det->pregunta->tituloPregunta }}
                                                 </p>
                                                 <div class="flex items-center space-x-2 mt-1">
-                                                    <span class="text-2xl">
-                                                        {{ $det->nivelSatisfaccion->emojiSatisfaccion }}
-                                                    </span>
-                                                    <span class="text-sm text-gray-700">
-                                                        {{ $det->nivelSatisfaccion->nombreNivelSatisfaccion }}
-                                                    </span>
+                                                    @if ($det->nivelSatisfaccion)
+                                                        <span class="text-2xl">
+                                                            {{ $det->nivelSatisfaccion->emojiSatisfaccion }}
+                                                        </span>
+                                                        <span class="text-sm text-gray-700">
+                                                            {{ $det->nivelSatisfaccion->nombreNivelSatisfaccion }}
+                                                        </span>
+                                                    @elseif ($det->respuestaTexto)
+                                                        <span class="text-sm text-gray-800">{{ $det->respuestaTexto }}</span>
+                                                    @elseif ($det->respuestaEntero !== null)
+                                                        <span class="text-sm text-gray-800">{{ $det->respuestaEntero }}</span>
+                                                    @elseif ($det->respuestaFecha)
+                                                        <span class="text-sm text-gray-800">{{ \Carbon\Carbon::parse($det->respuestaFecha)->format('d/m/Y') }}</span>
+                                                    @elseif ($det->respuestaHora)
+                                                        <span class="text-sm text-gray-800">{{ \Carbon\Carbon::parse($det->respuestaHora)->format('H:i') }}</span>
+                                                    @elseif ($det->respuestaFechaHora)
+                                                        <span class="text-sm text-gray-800">{{ \Carbon\Carbon::parse($det->respuestaFechaHora)->format('d/m/Y H:i') }}</span>
+                                                    @elseif ($det->respuestaOpcion)
+                                                        <span class="text-sm text-gray-800">{{ $det->respuestaOpcion }}</span>
+                                                    @else
+                                                        <span class="text-sm text-gray-500 italic">Sin respuesta</span>
+                                                    @endif
                                                 </div>
                                             </li>
                                         @endforeach

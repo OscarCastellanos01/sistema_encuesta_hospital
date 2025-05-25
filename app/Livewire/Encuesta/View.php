@@ -83,15 +83,52 @@ class View extends Component
 
             $detalleRespuesta = [];
 
-            foreach ($this->answers as $preguntaId => $nivel)
+            foreach ($this->answers as $preguntaId => $valor)
             {
-                $detalleRespuesta[] = [
+                // logger("Procesando -> preguntaId: " . $preguntaId . " | valor: " . json_encode($valor));
+                $pregunta = EncuestaPregunta::find($preguntaId);
+                $detalle = [
                     'idEncuestaRespuesta' => $encuestaRespuesta->id,
                     'idPregunta' => $preguntaId,
-                    'idNivelSatisfaccion' => $nivel,
                     'created_at' => now(),
                     'updated_at' => now()
                 ];
+
+                $detalle['idNivelSatisfaccion'] = null;
+                $detalle['respuestaTexto'] = null;
+                $detalle['respuestaEntero'] = null;
+                $detalle['respuestaFecha'] = null;
+                $detalle['respuestaHora'] = null;
+                $detalle['respuestaFechaHora'] = null;
+                $detalle['respuestaOpcion'] = null;
+
+                switch ($pregunta->tipoPregunta) {
+                    case 'nivel_satisfaccion':
+                        $detalle['idNivelSatisfaccion'] = $valor;
+                        break;
+                    case 'texto':
+                        $detalle['respuestaTexto'] = $valor;
+                        break;
+                    case 'numero':
+                        $detalle['respuestaEntero'] = intval($valor);
+                        break;
+                    case 'fecha':
+                        $detalle['respuestaFecha'] = $valor;
+                        break;
+                    case 'hora':
+                        $detalle['respuestaHora'] = $valor;
+                        break;
+                    case 'fecha_hora':
+                        $detalle['respuestaFechaHora'] = $valor;
+                        break;
+                    case 'select':
+                        $opcion = collect($pregunta->opciones)
+                            ->firstWhere('valor', $valor);
+                        $detalle['respuestaOpcion'] = $opcion ? $opcion->etiqueta : $valor;
+                        break;
+                }
+
+                $detalleRespuesta[] = $detalle;
             }
 
             EncuestaRespuestaDetalle::insert($detalleRespuesta);

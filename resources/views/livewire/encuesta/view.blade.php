@@ -77,30 +77,84 @@
                         class="bg-white rounded-xl p-6 shadow-sm flex flex-col justify-between
                         {{ $errors->has('answers.' . $pregunta->id) ? 'ring-2 ring-red-400' : '' }}"
                     >
-                        <p 
-                            class="font-semibold text-slate-800 mb-6"
-                        >
+                        <p class="font-semibold text-slate-800 mb-6">
                             {{ $pregunta->tituloPregunta }}
                         </p>
-                
-                        <div class="flex items-center justify-between">
-                            @foreach ($satisfactions as $satisfaccion)
-                                <button
-                                    type="button"
-                                    wire:click="toggleAnswer({{ $pregunta->id }}, {{ $satisfaccion->codigoNivelSatisfaccion }})"
-                                    class="text-4xl transition
-                                        {{ (isset($answers[$pregunta->id]) && $answers[$pregunta->id] === $satisfaccion->codigoNivelSatisfaccion)
-                                            ? 'opacity-100'
-                                            : 'opacity-40' }}
-                                        cursor-pointer"
-                                >
-                                    {{ $satisfaccion->emojiSatisfaccion }}
-                                </button>
-                            @endforeach
-                        </div>
-                
+            
+                        {{-- NIVEL DE SATISFACCION --}}
+                        @if ($pregunta->tipoPregunta === 'nivel_satisfaccion')
+                            <div class="flex items-center justify-between">
+                                @foreach ($satisfactions as $satisfaccion)
+                                    <button
+                                        type="button"
+                                        wire:click="toggleAnswer({{ $pregunta->id }}, {{ $satisfaccion->codigoNivelSatisfaccion }})"
+                                        class="text-4xl transition
+                                            {{ (isset($answers[$pregunta->id]) && $answers[$pregunta->id] == $satisfaccion->codigoNivelSatisfaccion)
+                                                ? 'opacity-100'
+                                                : 'opacity-40' }}
+                                            cursor-pointer"
+                                    >
+                                        {{ $satisfaccion->emojiSatisfaccion }}
+                                    </button>
+                                @endforeach
+                            </div>
+            
+                        {{-- CAMPO DE TEXTO LIBRE --}}
+                        @elseif ($pregunta->tipoPregunta === 'texto')
+                            <input
+                                type="text"
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-input w-full rounded-md border-gray-300"
+                            />
+            
+                        {{-- SELECT DINÁMICO --}}
+                        @elseif ($pregunta->tipoPregunta === 'select')
+                            <select
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-select w-full rounded-md border-gray-300"
+                            >
+                                <option value="">Seleccione una opción</option>
+                                @foreach ($pregunta->opciones as $opcion)
+                                    <option value="{{ $opcion->valor }}">{{ $opcion->etiqueta }}</option>
+                                @endforeach
+                            </select>
+            
+                        {{-- FECHA --}}
+                        @elseif ($pregunta->tipoPregunta === 'fecha')
+                            <input
+                                type="date"
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-input w-full rounded-md border-gray-300"
+                            />
+            
+                        {{-- HORA --}}
+                        @elseif ($pregunta->tipoPregunta === 'hora')
+                            <input
+                                type="time"
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-input w-full rounded-md border-gray-300"
+                            />
+            
+                        {{-- FECHA Y HORA --}}
+                        @elseif ($pregunta->tipoPregunta === 'fecha_hora')
+                            <input
+                                type="datetime-local"
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-input w-full rounded-md border-gray-300"
+                            />
+            
+                        {{-- NÚMERO --}}
+                        @elseif ($pregunta->tipoPregunta === 'numero')
+                            <input
+                                type="number"
+                                wire:model.defer="answers.{{ $pregunta->id }}"
+                                class="form-input w-full rounded-md border-gray-300"
+                            />
+                        @endif
+            
+                        {{-- ERRORES --}}
                         @error('answers.' . $pregunta->id)
-                            <span class="text-xs text-red-600 mt-2">Debes responder esta pregunta.</span>
+                            <span class="text-xs text-red-600 mt-2">{{ $message }}</span>
                         @enderror
                     </div>
                 @endforeach

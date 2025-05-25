@@ -56,33 +56,6 @@
                 <span>Dashboard</span>
             </a>
 
-            <a
-                href="{{ route('user.index') }}"
-                class="
-                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
-                    {{
-                        request()->routeIs('user.index')
-                        ? 'bg-gray-200 text-primary-700'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }}
-                "
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-6">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 14.25c-3.75 0-6.75 1.5-6.75 4.5v1.5h13.5v-1.5c0-3-3-4.5-6.75-4.5Zm0-2.25a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"
-                    />
-                </svg>
-                <span>Usuarios</span>
-            </a>
-
             <a href="{{ route('encuesta.index') }}"
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
@@ -217,6 +190,32 @@
                 <span>Especialidades</span>
             </a>
 
+            <a
+                href="{{ route('user.index') }}"
+                class="
+                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
+                    {{
+                        request()->routeIs('user.index')
+                        ? 'bg-gray-200 text-primary-700'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }}
+                "
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 14.25c-3.75 0-6.75 1.5-6.75 4.5v1.5h13.5v-1.5c0-3-3-4.5-6.75-4.5Zm0-2.25a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"
+                    />
+                </svg>
+                <span>Usuarios</span>
+            </a>
         </nav>
     </div>
 </div>

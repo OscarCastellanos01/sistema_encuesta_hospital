@@ -8,6 +8,7 @@ use App\Models\EncuestaPregunta;
 use App\Models\TipoCita;
 use App\Models\tipo_encuesta;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Edit extends Component
@@ -33,6 +34,10 @@ class Edit extends Component
             'questions' => 'required|array|min:1',
             'questions.*.titulo' => 'required|string|max:255',
             'questions.*.estado' => 'boolean',
+            'questions.*.tipoPregunta' => 'required|string|in:texto,numero,select,nivel_satisfaccion,fecha,hora,fecha_hora',
+            'questions.*.opciones' => 'nullable|array',
+            'questions.*.opciones.*.valor' => 'required_with:questions.*.opciones|string',
+            'questions.*.opciones.*.etiqueta' => 'required_with:questions.*.opciones|string',
         ];
     }
 
@@ -45,25 +50,50 @@ class Edit extends Component
         $this->idTipoEncuesta = $encuesta->idTipoEncuesta;
         $this->idTipoCita = $encuesta->idTipoCita;
 
-        $this->questions = $encuesta
-            ->preguntas()
-            ->get([
-                'id',
-                'tituloPregunta',
-                'estadoPregunta'
-            ])
-            ->map(fn($p) => [
+        $this->questions = $encuesta->preguntas()->with('opciones')->get()->map(function ($p) {
+            return [
                 'id' => $p->id,
                 'titulo' => $p->tituloPregunta,
-                'estado' => (bool)$p->estadoPregunta,
-            ])->toArray();
+                'estado' => (bool) $p->estadoPregunta,
+                'tipoPregunta' => $p->tipoPregunta,
+                'opciones' => $p->tipoPregunta === 'select'
+                    ? $p->opciones->map(fn($o) => ['valor' => $o->valor, 'etiqueta' => $o->etiqueta])->toArray()
+                    : [],
+            ];
+        })->toArray();
     }
 
     public function addQuestion(): void
     {
-        $this->questions[] = ['id'=>null,'titulo'=>'','estado'=>true];
+        $this->questions[] = [
+            'id' => null,
+            'titulo' => '',
+            'estado' => true,
+            'tipoPregunta' => 'nivel_satisfaccion',
+            'opciones' => [],
+        ];
     }
 
+    public function addOption($idx)
+    {
+        if (!isset($this->questions[$idx]['opciones'])) {
+            $this->questions[$idx]['opciones'] = [];
+        }
+
+        $this->questions[$idx]['opciones'][] = [
+            'valor' => Str::uuid()->toString(),
+            'etiqueta' => '',
+        ];
+    }
+
+    public function removeOption($preguntaIdx, $opcionIdx)
+    {
+        if (isset($this->questions[$preguntaIdx]['opciones'][$opcionIdx])) {
+            unset($this->questions[$preguntaIdx]['opciones'][$opcionIdx]);
+            $this->questions[$preguntaIdx]['opciones'] = array_values($this->questions[$preguntaIdx]['opciones']);
+        }
+    }
+    
     public function save()
     {
         $this->validate();
@@ -90,20 +120,38 @@ class Edit extends Component
 
             foreach ($this->questions as $q) {
                 if ($q['id']) {
-                    // actualizar existente
-                    EncuestaPregunta::where('id', $q['id'])
-                        ->update([
-                            'tituloPregunta' => $q['titulo'],
-                            'estadoPregunta' => $q['estado'] ? 1 : 0,
-                        ]);
-                } else {
-                    // crear nueva
-                    EncuestaPregunta::create([
-                        'idEncuesta'     => $this->encuesta->id,
+                    $pregunta = EncuestaPregunta::find($q['id']);
+                    $pregunta->update([
                         'tituloPregunta' => $q['titulo'],
                         'estadoPregunta' => $q['estado'] ? 1 : 0,
+                        'tipoPregunta'   => $q['tipoPregunta'],
                     ]);
-                }
+                    if ($q['tipoPregunta'] === 'select') {
+                        $pregunta->opciones()->delete();
+                        foreach ($q['opciones'] as $opt) {
+                            $pregunta->opciones()->create([
+                                'valor' => $opt['valor'],
+                                'etiqueta' => $opt['etiqueta'],
+                            ]);
+                        }
+                    }
+                } else {
+                    $pregunta = EncuestaPregunta::create([
+                        'idEncuesta' => $this->encuesta->id,
+                        'tituloPregunta' => $q['titulo'],
+                        'estadoPregunta' => $q['estado'] ? 1 : 0,
+                        'tipoPregunta' => $q['tipoPregunta'],
+                    ]);
+                
+                    if ($q['tipoPregunta'] === 'select') {
+                        foreach ($q['opciones'] as $opt) {
+                            $pregunta->opciones()->create([
+                                'valor' => $opt['valor'],
+                                'etiqueta' => $opt['etiqueta'],
+                            ]);
+                        }
+                    }
+                }                
             }
 
             DB::commit();
