@@ -1,16 +1,19 @@
 <div class="flex justify-center py-10 px-4">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800">Niveles de Satisfacción</h2>
-        <select wire:model="selectedPeriod" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @foreach($periods as $value => $label)
-                <option value="{{ $value }}">{{ $label }}</option>
-            @endforeach
-        </select>
-    </div>
-    
-    <div class="h-80">
-        <canvas 
-            x-data="{
+    <div
+        class="bg-white/90 backdrop-blur-md rounded-[36px] shadow ring-1 ring-slate-200/50 w-full max-w-[1100px] mx-auto px-10 py-12 space-y-8">
+
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">Niveles de Satisfacción</h2>
+            <select wire:model="selectedPeriod"
+                class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @foreach ($periods as $value => $label)
+                    <option value="{{ $value }}">{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="h-80">
+            <canvas x-data="{
                 chart: null,
                 init() {
                     this.renderChart();
@@ -21,7 +24,7 @@
                 },
                 renderChart() {
                     const chartData = @js($chartData);
-                    
+
                     // Configuración personalizada para mostrar emojis
                     const emojiPlugin = {
                         id: 'emojiPlugin',
@@ -29,12 +32,12 @@
                             const ctx = chart.ctx;
                             const { datasets } = chart.data;
                             const { emojis } = chartData;
-                            
+
                             chart.getDatasetMeta(0).data.forEach((element, index) => {
                                 const { x, y } = element.tooltipPosition();
                                 const emoji = emojis[index];
                                 const value = datasets[0].data[index];
-                                
+
                                 if (value > 0) {
                                     ctx.font = '20px Arial';
                                     ctx.textAlign = 'center';
@@ -43,7 +46,7 @@
                             });
                         }
                     };
-                    
+
                     this.chart = new Chart(this.$el, {
                         type: 'doughnut',
                         data: {
@@ -87,9 +90,7 @@
                         plugins: [emojiPlugin]
                     });
                 }
-            }"
-            x-init="init"
-            wire:ignore
-        ></canvas>
+            }" x-init="init" wire:ignore></canvas>
+        </div>
     </div>
 </div>

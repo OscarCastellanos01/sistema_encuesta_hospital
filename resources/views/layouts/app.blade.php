@@ -16,12 +16,13 @@
         {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
         @stack('css')
-        
+
         @stack('js')
+        
     </head>
     <body class="h-full bg-gradient-to-tr from-[#e8f1f5] to-[#dfe9ef] bg-fixed">
         <x-drawer />
-        
+
         <main>
             @yield('contenido')
         </main>
