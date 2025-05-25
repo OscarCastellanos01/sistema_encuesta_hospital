@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('idEncuesta')->references('id')->on('encuestas');
             $table->string('tituloPregunta');
+            $table->string('tipoPregunta')->default('nivel_satisfaccion'); // 'texto', 'numero', 'select', 'nivel_satisfaccion', 'hora', 'fecha', 'fecha_hora
             $table->tinyInteger('estadoPregunta')->default(1);
             $table->timestamps();
         });

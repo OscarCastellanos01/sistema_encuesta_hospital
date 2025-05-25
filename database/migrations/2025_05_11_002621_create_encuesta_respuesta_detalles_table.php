@@ -15,7 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('idEncuestaRespuesta')->references('id')->on('encuesta_respuestas');
             $table->foreignId('idPregunta')->references('id')->on('encuesta_preguntas');
-            $table->foreignId('idNivelSatisfaccion')->references('id')->on('nivel_satisfaccion');
+            // $table->foreignId('idNivelSatisfaccion')->references('id')->on('nivel_satisfaccion');
+            $table->text('respuestaTexto')->nullable();
+            $table->integer('respuestaEntero')->nullable();
+            $table->date('respuestaFecha')->nullable();
+            $table->time('respuestaHora')->nullable();
+            $table->dateTime('respuestaFechaHora')->nullable();
+            $table->string('respuestaOpcion')->nullable(); // para select si guardas valor directo
+            $table->foreignId('idNivelSatisfaccion')->nullable()->constrained('nivel_satisfaccion');
             $table->timestamps();
         });
     }

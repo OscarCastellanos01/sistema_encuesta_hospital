@@ -9,6 +9,7 @@ use App\Models\tipo_encuesta;
 use App\Models\TipoCita;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Create extends Component
@@ -22,7 +23,9 @@ class Create extends Component
     public array $questions = [
         [
             'titulo' => '', 
-            'estado' => true
+            'tipoPregunta' => 'nivel_satisfaccion',
+            'estado' => true,
+            'opciones' => [],
         ],
     ];
 
@@ -37,6 +40,10 @@ class Create extends Component
             'questions' => 'required|array|min:1',
             'questions.*.titulo' => 'required|string|max:255',
             'questions.*.estado' => 'boolean',
+            'questions.*.tipoPregunta' => 'required|string|in:texto,numero,select,nivel_satisfaccion,fecha,hora,fecha_hora',
+            'questions.*.opciones' => 'nullable|array',
+            'questions.*.opciones.*.valor' => 'required_with:questions.*.opciones|string',
+            'questions.*.opciones.*.etiqueta' => 'required_with:questions.*.opciones|string',
         ];
     }
 
@@ -44,7 +51,21 @@ class Create extends Component
     {
         $this->questions[] = [
             'titulo' => '', 
-            'estado' => true
+            'tipoPregunta' => 'nivel_satisfaccion', 
+            'estado' => true,
+            'opciones' => [],
+        ];
+    }
+
+    public function addSelectOption($idx): void
+    {
+        if (!isset($this->questions[$idx]['opciones'])) {
+            $this->questions[$idx]['opciones'] = [];
+        }
+
+        $this->questions[$idx]['opciones'][] = [
+            'valor' => Str::uuid()->toString(), // UUID como valor interno
+            'etiqueta' => '',
         ];
     }
 
@@ -52,6 +73,14 @@ class Create extends Component
     {
         if (count($this->questions) > 1) {
             array_splice($this->questions, $idx, 1);
+        }
+    }
+
+    public function removeOption($preguntaIdx, $opcionIdx)
+    {
+        if (isset($this->questions[$preguntaIdx]['opciones'][$opcionIdx])) {
+            unset($this->questions[$preguntaIdx]['opciones'][$opcionIdx]);
+            $this->questions[$preguntaIdx]['opciones'] = array_values($this->questions[$preguntaIdx]['opciones']);
         }
     }
 
@@ -77,11 +106,21 @@ class Create extends Component
             ]);
 
             foreach ($this->questions as $q) {
-                EncuestaPregunta::create([
+                $pregunta = EncuestaPregunta::create([
                     'idEncuesta' => $encuesta->id,
                     'tituloPregunta' => $q['titulo'],
                     'estadoPregunta' => $q['estado'] ? 1 : 0,
+                    'tipoPregunta' => $q['tipoPregunta'],
                 ]);
+            
+                if ($q['tipoPregunta'] === 'select' && !empty($q['opciones'])) {
+                    foreach ($q['opciones'] as $op) {
+                        $pregunta->opciones()->create([
+                            'valor' => $op['valor'],
+                            'etiqueta' => $op['etiqueta'],
+                        ]);
+                    }
+                }
             }
 
             DB::commit();

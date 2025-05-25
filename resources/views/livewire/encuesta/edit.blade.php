@@ -76,7 +76,7 @@
                         <option value="" disabled>Selecciona tipo de cita</option>
                         @foreach($tiposCita as $tc)
                             <option value="{{ $tc->id }}">
-                                {{ $tc->tipoCita }}
+                                {{ $tc->nombreTipoCita }}
                             </option>
                         @endforeach
                     </x-native-select>
@@ -86,8 +86,8 @@
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="flex justify-between items-center">
+            <div class="relative max-h-[600px] overflow-y-auto space-y-6 rounded-xl">
+                <div class="sticky top-0 z-[5] bg-white/90 backdrop-blur-md px-6 py-4 shadow flex justify-between items-center">
                     <h2 class="text-2xl font-bold">Preguntas</h2>
                     <x-button 
                         flat 
@@ -113,6 +113,57 @@
                                 <span class="text-xs text-red-600">{{ $message }}</span>
                             @enderror
             
+                            <x-select 
+                                label="Tipo de Pregunta"
+                                wire:model.live="questions.{{ $idx }}.tipoPregunta"
+                                :options="[
+                                    ['value' => 'nivel_satisfaccion', 'label' => 'Nivel de Satisfacción'],
+                                    ['value' => 'texto', 'label' => 'Texto'],
+                                    ['value' => 'numero', 'label' => 'Número'],
+                                    ['value' => 'fecha', 'label' => 'Fecha'],
+                                    ['value' => 'hora', 'label' => 'Hora'],
+                                    ['value' => 'fecha_hora', 'label' => 'Fecha y Hora'],
+                                    ['value' => 'select', 'label' => 'Select']
+                                ]"
+                                option-label="label"
+                                option-value="value"
+                            />
+
+                            @if ($q['tipoPregunta'] === 'select')
+                                <div class="space-y-2 mt-4">
+                                    <p class="text-sm font-semibold">Opciones</p>
+
+                                    @foreach ($q['opciones'] as $optIdx => $opcion)
+                                        <div class="flex items-end gap-2">
+                                            <div class="w-full">
+                                                <x-input 
+                                                    label="Etiqueta"
+                                                    wire:model.defer="questions.{{ $idx }}.opciones.{{ $optIdx }}.etiqueta"
+                                                    placeholder="Ej: Opción 1"
+                                                />
+                                            </div>
+                                            <div class="pt-1">
+                                                <x-button
+                                                    flat
+                                                    negative
+                                                    icon="trash"
+                                                    wire:click.prevent="removeOption({{ $idx }}, {{ $optIdx }})"
+                                                    title="Eliminar"
+                                                />
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <x-button
+                                        flat
+                                        small
+                                        icon="plus"
+                                        wire:click.prevent="addOption({{ $idx }})"
+                                        label="Agregar opción"
+                                    />
+                                </div>
+                            @endif
+
                             <div class="flex items-center space-x-2">
                                 <x-toggle 
                                     label="Activo"
