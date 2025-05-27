@@ -4,38 +4,8 @@
 
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Distribución por Tipo de Encuesta</h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="h-64">
-                <canvas x-data="{
-                    chart: null,
-                    init() {
-                        this.chart = new Chart(this.$el, {
-                            type: 'pie',
-                            data: @js($chartData),
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'right',
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(context) {
-                                                const label = context.label || '';
-                                                const value = context.raw || 0;
-                                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                                const percentage = Math.round((value / total) * 100);
-                                                return `${label}: ${value} (${percentage}%)`;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }" x-init="init" wire:ignore></canvas>
-            </div>
+        <div class="grid grid-cols-1 gap-6">
+            
 
             <div>
                 <h3 class="text-md font-medium text-gray-700 mb-3">Detalles</h3>

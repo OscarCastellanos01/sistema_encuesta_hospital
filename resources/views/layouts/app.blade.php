@@ -12,6 +12,7 @@
 
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireScripts
         <wireui:scripts />
         {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
@@ -26,5 +27,9 @@
         <main>
             @yield('contenido')
         </main>
+
+        npm install chart.js
+
+yarn add chart.js
     </body>
 </html>

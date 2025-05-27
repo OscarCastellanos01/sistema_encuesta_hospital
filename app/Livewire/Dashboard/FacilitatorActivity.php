@@ -55,8 +55,15 @@ class FacilitatorActivity extends Component
                 break;
         }
 
-        return $query->get();
+        // Convertimos a array plano
+        return $query->get()->map(function ($item) {
+            return [
+                'date' => $item->date,
+                'count' => $item->count,
+            ];
+        })->values()->toArray(); // <- MUY IMPORTANTE
     }
+
 
     protected function getTopFacilitators()
     {

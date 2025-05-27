@@ -3,7 +3,6 @@
 @section('titulo', 'Dashboard')
 
 @section('contenido')
-    @livewire('dashboard.index')
     @livewire('dashboard.facilitator-activity')
     @livewire('dashboard.recent-surveys')
     @livewire('dashboard.satisfaction-level-chart')
