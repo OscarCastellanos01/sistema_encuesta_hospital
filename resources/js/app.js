@@ -1,2 +1,2 @@
 import './bootstrap';
-window.Chart = Chart;
+// window.Chart = Chart;
