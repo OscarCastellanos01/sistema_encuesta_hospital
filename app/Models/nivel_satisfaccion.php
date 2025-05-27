@@ -12,6 +12,7 @@ class nivel_satisfaccion extends Model
         'codigoNivelSatisfaccion',
         'nombreNivelSatisfaccion',
         'emojiSatisfaccion',
+        'porcentaje_nivel_satisfaccion',
         'estadoNivelSatisfaccion'
     ];
 }

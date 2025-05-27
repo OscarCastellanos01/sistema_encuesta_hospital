@@ -17,26 +17,32 @@ class NivelSatisfaccionSeeder extends Seeder
             [
                 'codigoNivelSatisfaccion' => 1,
                 'nombreNivelSatisfaccion' => 'Muy insatisfecho',
-                'emojiSatisfaccion' => '😡'
+                'emojiSatisfaccion' => '😡',
+                'porcentaje_nivel_satisfaccion' => '20',
             ],
             [
                 'codigoNivelSatisfaccion' => 2, 
                 'nombreNivelSatisfaccion' => 'Insatisfecho',
-                'emojiSatisfaccion' => '😔'],
+                'emojiSatisfaccion' => '😔',
+                'porcentaje_nivel_satisfaccion' => '40',
+            ],
             [
                 'codigoNivelSatisfaccion' => 3,
                 'nombreNivelSatisfaccion' => 'Neutral',
-                'emojiSatisfaccion' => '😐'
+                'emojiSatisfaccion' => '😐',
+                'porcentaje_nivel_satisfaccion' => '60',
             ],
             [
                 'codigoNivelSatisfaccion' => 4,
                 'nombreNivelSatisfaccion' => 'Satisfecho',
-                'emojiSatisfaccion' => '😊'
+                'emojiSatisfaccion' => '😊',
+                'porcentaje_nivel_satisfaccion' => '80',
             ],
             [
                 'codigoNivelSatisfaccion' => 5,
                 'nombreNivelSatisfaccion' => 'Muy satisfecho',
-                'emojiSatisfaccion' => '😁'
+                'emojiSatisfaccion' => '😁',
+                'porcentaje_nivel_satisfaccion' => '100',
             ],
         ];
 
