@@ -28,14 +28,13 @@ class StatsOverview extends Component
 
     protected function getAverageSatisfaction()
     {
-        // Implementación básica - ajustar según tu estructura real
         $average = EncuestaRespuesta::has('detalles')
             ->with('detalles.nivelSatisfaccion')
             ->get()
             ->flatMap(function($respuesta) {
                 return $respuesta->detalles
                     ->filter(fn($d) => $d->nivelSatisfaccion)
-                    ->map(fn($d) => $this->mapSatisfactionValue($d->nivelSatisfaccion));
+                    ->map(fn($d) => $d->nivelSatisfaccion->porcentaje_nivel_satisfaccion);
             })
             ->avg();
 

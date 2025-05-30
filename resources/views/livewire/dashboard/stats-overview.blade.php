@@ -38,7 +38,7 @@
         <!-- Satisfacción Promedio -->
         <x-card title="Satisfacción" icon="emoji-happy" class="hover:shadow-lg transition-shadow">
             <div class="flex items-center justify-between">
-                <div class="text-3xl font-bold text-red-600">{{ $satisfactionRate }}/5</div>
+                <div class="text-3xl font-bold text-red-600">{{ $satisfactionRate }}/100</div>
                 <x-badge red label="Promedio" />
             </div>
             <x-slot name="footer">

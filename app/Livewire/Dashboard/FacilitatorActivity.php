@@ -4,22 +4,31 @@ namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
 use App\Models\EncuestaRespuesta;
-use App\Models\EncuestaRespuestaDetalle;
 use App\Models\RegistroFacilitador;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class FacilitatorActivity extends Component
 {
     public $timeRange = 'month';
-
+    
+    protected $queryString = ['timeRange']; // Para mantener el estado en la URL
+    
+    public function updatedTimeRange($value)
+    {
+        // Este método se ejecutará automáticamente cuando cambie el valor
+        $this->dispatch('refreshStats'); // Opcional: para notificar a otros componentes
+    }
+    
     public function render()
     {
         $activity = $this->getFacilitatorActivity();
         $topFacilitators = $this->getTopFacilitators();
-
+        
+        $maxDailyCount = $activity->max('count') ?? 1;
+        
         return view('livewire.dashboard.facilitator-activity', [
             'activity' => $activity,
+            'maxDailyCount' => $maxDailyCount,
             'topFacilitators' => $topFacilitators,
             'timeRanges' => [
                 'week' => 'Esta semana',
@@ -40,6 +49,22 @@ class FacilitatorActivity extends Component
             ->groupBy('date')
             ->orderBy('date');
 
+        $this->applyTimeFilter($query);
+        
+        return $query->get()
+            ->map(function ($item) {
+                return [
+                    'date' => \Carbon\Carbon::parse($item->date)->format('d M Y'), // Mejor formato de fecha
+                    'count' => $item->count,
+                    'raw_date' => $item->date // Mantenemos la fecha original para ordenamiento
+                ];
+            })
+            ->sortBy('raw_date') // Ordenar por fecha
+            ->values();
+    }
+
+    protected function applyTimeFilter($query)
+    {
         switch($this->timeRange) {
             case 'week':
                 $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
@@ -54,20 +79,11 @@ class FacilitatorActivity extends Component
                 $query->whereBetween('created_at', [now()->startOfYear(), now()->endOfYear()]);
                 break;
         }
-
-        // Convertimos a array plano
-        return $query->get()->map(function ($item) {
-            return [
-                'date' => $item->date,
-                'count' => $item->count,
-            ];
-        })->values()->toArray(); // <- MUY IMPORTANTE
     }
-
 
     protected function getTopFacilitators()
     {
-        return EncuestaRespuesta::with(['facilitador', 'detalles.nivelSatisfaccion'])
+        $query = EncuestaRespuesta::query()
             ->select(
                 'idFacilitador',
                 DB::raw('count(*) as response_count')
@@ -77,22 +93,15 @@ class FacilitatorActivity extends Component
             }])
             ->groupBy('idFacilitador')
             ->orderByDesc('response_count')
-            ->limit(5)
-            ->get()
-            ->map(function($item) {
-                // Calcular promedio de satisfacción
-                $satisfactionValues = $item->detalles
-                    ->filter(fn($d) => $d->idNivelSatisfaccion !== null)
-                    ->map(fn($d) => optional($d->nivelSatisfaccion)->valor ?? 0);
-                
-                $avgSatisfaction = $satisfactionValues->isNotEmpty() 
-                    ? $satisfactionValues->avg() 
-                    : 0;
+            ->limit(5);
 
+        $this->applyTimeFilter($query);
+        
+        return $query->get()
+            ->map(function($item) {
                 return (object)[
                     'facilitator_name' => $item->facilitador->name ?? 'Desconocido',
-                    'response_count' => $item->response_count,
-                    'avg_satisfaction' => (float)$avgSatisfaction
+                    'response_count' => $item->response_count
                 ];
             });
     }
