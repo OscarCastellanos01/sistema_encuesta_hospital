@@ -37,6 +37,7 @@ class Index extends Component
                 'nombreEspecialidad' => $this->nombreEspecialidad,
                 'estadoEspecialidad'             => $this->estadoEspecialidad,
             ]);
+            
             session()->flash('message', 'Especialidad creada.');
         }
 

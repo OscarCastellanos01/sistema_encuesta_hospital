@@ -3,6 +3,7 @@
 namespace App\Livewire\Area;
 
 use App\Models\Area;
+use App\Models\Bitacora;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -39,10 +40,29 @@ class Index extends Component
     public function store()
     {
         $this->validate();
-        Area::create([
+        
+        // Contar áreas existentes antes de crear la nueva
+        $totalAreasAntes = Area::count();
+
+        // Crear el área y guardar la instancia
+        $area = Area::create([
             'nombreArea' => $this->nombreArea,
             'estado'     => $this->estado,
         ]);
+
+        // Contar áreas después de la creación
+        $totalAreasDespues = Area::count();
+
+        // Registrar en bitácora(acción de creación: tipo 1)
+        Bitacora::create([
+            'idRegistro'   => $area->id, // ID del área recién creada
+            'descripcion'  => "Creación de área. Nombre: {$this->nombreArea}, Nuevo estado: ".($this->estado != null ? '1' : '0'),
+            'tipoAccion'   => 1, // 1 = Creación
+            'idUsuario'    => auth()->id(),
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]);
+
         session()->flash('message', 'Área creada.');
         $this->resetForm();
     }
@@ -56,6 +76,18 @@ class Index extends Component
                 'nombreArea' => $this->nombreArea,
                 'estado'     => $this->estado,
             ]);
+
+            
+        // Registrar en bitácora (acción de actualización: tipo 2)
+        Bitacora::create([
+            'idRegistro'   => $this->area_id,     // ID del área actualizada
+            'descripcion'  => "Actualización de área: {$this->nombreArea}, Nuevo estado: ".($this->estado != null ? '1' : '0'),
+            'tipoAccion'   => 2,                  // 2 = Actualización
+            'idUsuario'    => auth()->id(),       // ID del usuario autenticado
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ]);
+
         session()->flash('message', 'Área actualizada.');
         $this->resetForm();
     }

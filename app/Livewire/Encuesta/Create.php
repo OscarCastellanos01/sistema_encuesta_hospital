@@ -3,6 +3,7 @@
 namespace App\Livewire\Encuesta;
 
 use App\Models\Area;
+use App\Models\Bitacora;
 use App\Models\Encuesta;
 use App\Models\EncuestaPregunta;
 use App\Models\tipo_encuesta;
@@ -105,6 +106,19 @@ class Create extends Component
                 'idUser' => Auth::id(),
             ]);
 
+            // Contar áreas después de la creación
+            $totalEncuestasDespues = Encuesta::count();
+            
+
+            Bitacora::create([
+                'idRegistro'   => $encuesta->id,     // ID de la encuesta Creada
+                'descripcion' => "Creación de Encuesta: {$this->tituloEncuesta}, Estado: 1",
+                'tipoAccion'   => 1,                  // 1 = Creación de Encuesta
+                'idUsuario'    => auth()->id(),       // ID del usuario autenticado
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ]);
+
             foreach ($this->questions as $q) {
                 $pregunta = EncuestaPregunta::create([
                     'idEncuesta' => $encuesta->id,
@@ -130,8 +144,11 @@ class Create extends Component
 
         } catch (\Throwable $e) {
             DB::rollBack();
+
             session()->flash('error', 'Error al crear encuesta: ' . $e->getMessage());
         }
+
+
     }
 
     public function render()

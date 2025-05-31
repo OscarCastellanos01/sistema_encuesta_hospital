@@ -4,4 +4,5 @@
 
 @section('contenido')
   @livewire('bitacora.index')
+  @livewire('bitacora.show')
 @endsection

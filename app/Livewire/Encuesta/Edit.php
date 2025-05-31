@@ -3,6 +3,7 @@
 namespace App\Livewire\Encuesta;
 
 use App\Models\Area;
+use App\Models\Bitacora;
 use App\Models\Encuesta;
 use App\Models\EncuestaPregunta;
 use App\Models\TipoCita;
@@ -107,6 +108,15 @@ class Edit extends Component
                 'idArea' => $this->idArea,
                 'idTipoEncuesta' => $this->idTipoEncuesta,
                 'idTipoCita' => $this->idTipoCita,
+            ]);
+
+            Bitacora::create([
+                'idRegistro'   => $this->encuesta->id,     // ID de la encuesta actualizada
+                'descripcion'  => "Actualización de Encuesta: {$this->tituloEncuesta}, Nuevo estado: 1",
+                'tipoAccion'   => 2,                  // 2 = Actualización de Encuesta
+                'idUsuario'    => auth()->id(),       // ID del usuario autenticado
+                'created_at'   => now(),
+                'updated_at'   => now(),
             ]);
 
             $existingIds = collect($this->questions)
