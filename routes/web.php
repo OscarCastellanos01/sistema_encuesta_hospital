@@ -62,8 +62,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
 
     // Informe PDF
-    // Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])->name('informes.encuestas.pdf');
-
     Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])
      ->name('informes.encuestas.pdf');
 });
