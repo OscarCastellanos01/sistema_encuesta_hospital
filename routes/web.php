@@ -8,6 +8,7 @@ use App\Http\Controllers\TipoEncuestaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BitacoraController;
+use App\Http\Controllers\InformeExportPdfController;
 
 // LOGIN como vista principal
 Route::get('/', [SessionController::class, 'create'])->name('login');
@@ -60,6 +61,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios/crear', [UserController::class, 'create'])->name('user.create');
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
 
+    // Informe PDF
+    // Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])->name('informes.encuestas.pdf');
+
+    Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])
+     ->name('informes.encuestas.pdf');
 });
 
     // Dashboard

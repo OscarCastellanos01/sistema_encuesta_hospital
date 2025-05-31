@@ -9,6 +9,21 @@
                 @else
                     <x-badge flat red label="Inactivo" />
                 @endif
+
+                @php
+                    $tieneRango = $dateFrom && $dateTo;
+                @endphp
+
+                <a
+                    href="{{ $tieneRango 
+                        ? route('informes.encuestas.pdf', $encuesta) . '?dateFrom=' . $dateFrom . '&dateTo=' . $dateTo 
+                        : '#' }}"
+                    target="_blank"
+                    class="text-red-600 hover:text-red-800 {{ $tieneRango ? '' : 'pointer-events-none opacity-50 cursor-not-allowed' }}"
+                    title="Exportar a PDF (rango: {{ $dateFrom ?: '---' }} - {{ $dateTo ?: '---' }})"
+                >
+                    <x-icon name="document-arrow-down" class="h-6 w-6" /> 
+                </a>
             </div>
         </div>
 
