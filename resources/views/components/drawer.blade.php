@@ -9,20 +9,42 @@
     </button>
 
     <div class="relative">
-        <button @click="dropdownOpen = !dropdownOpen"
-            class="inline-flex items-center justify-center rounded-full w-10 h-10 bg-gray-100 text-gray-600 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zm-9 12a6 6 0 0112 0v.75a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V18z" />
-            </svg>
-        </button>
+        <button
+  @click="dropdownOpen = !dropdownOpen"
+  class="
+    inline-flex items-center space-x-2
+    bg-gray-100 text-gray-600 hover:bg-gray-200
+    rounded-full
+    px-4 py-2
+    focus:outline-none focus:ring-2 focus:ring-primary-300
+    cursor-pointer
+  "
+>
+  <!-- SVG del icono -->
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+       stroke="currentColor" class="w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round"
+          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zm-9
+             12a6 6 0 0112 0v.75a.75.75 0
+             01-.75.75H7.5a.75.75 0
+             01-.75-.75V18z" />
+  </svg>
+
+  <!-- Nombre dentro del mismo botón -->
+  @auth
+    <span class="text-lg text-blue-700 font-semibold">
+      {{ auth()->user()->name }}
+    </span>
+  @endauth
+</button>
+
+
 
         <div x-show="dropdownOpen" @click.away="dropdownOpen = false" x-cloak
             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Perfil
-            </a>
+            </a> --}}
             <form method="POST" action="{{ route('login.destroy') }}">
                 @csrf
                 <button type="submit"
@@ -40,6 +62,18 @@
         x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full"
         class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50 overflow-y-auto">
+        <div class="flex items-center justify-between p-4">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-20 mx-auto mb-4">
+        </div>
+        {{-- <div class="flex items-center justify-between p-4 border-b">
+            @auth
+                <span class="text-lg text-blue-700">
+                    <b>
+                        {{ auth()->user()->name }}
+                    </b>
+                </span>
+            @endauth
+        </div> --}}
         <nav class="p-4 space-y-1">
             <h2 class="text-lg font-bold text-gray-700 mb-4">Menú</h2>
 
@@ -216,6 +250,43 @@
                 </svg>
                 <span>Usuarios</span>
             </a>
+
+            <a
+                href="{{ route('bitacora.index') }}"
+                class="
+                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
+                    {{ request()->routeIs('bitacora.index')
+                        ? 'bg-gray-200 text-primary-700'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }}
+                "
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-6 h-6">
+                    <path d="M4 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" />
+                    <line x1="8" y1="7"  x2="16" y2="7" />
+                    <line x1="8" y1="11" x2="16" y2="11" />
+                    <line x1="8" y1="15" x2="16" y2="15" />
+                    <line x1="6" y1="5"  x2="6" y2="19" />
+                </svg>
+                <span>Bitácora</span>
+            </a>
         </nav>
+        <div class="p-4 border-t">
+            <form method="POST" action="{{ route('login.destroy') }}">
+                @csrf
+                <button type="submit"
+                    class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
     </div>
 </div>

@@ -20,7 +20,7 @@ class AdminAuth
             return redirect()->route('login');
         }
 
-        if (Auth::user()->id_rol == 1 || Auth::user()->id_rol == 2) {
+        if (Auth::user()->id_rol == 1 || Auth::user()->id_rol == 3) {
             return $next($request);
         }
 

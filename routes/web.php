@@ -10,13 +10,35 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\InformeExportPdfController;
 
+use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\FacilitadorAuth;
+use App\Http\Middleware\SuperAuth;
+
 // LOGIN como vista principal
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('/login', [SessionController::class, 'store'])->name('login.store');
 Route::post('/logout', [SessionController::class, 'destroy'])->middleware('auth')->name('login.destroy');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware([FacilitadorAuth::class])->group(function () {
+
+    // ==============================
+    // MÓDULO ENCUESTAS
+    // ==============================
+    Route::get('/encuestas', [EncuestaController::class, 'index'])->name('encuesta.index');
+    Route::get('/encuesta/{encuesta}/responder', [EncuestaController::class, 'response'])->name('encuesta.response');
+
+});
+
+Route::middleware([AdminAuth::class])->group(function () {
+
+    // ==============================
+    // MÓDULO ENCUESTAS
+    // ==============================
+    Route::get('/encuestas/crear', [EncuestaController::class, 'create'])->name('encuesta.create');
+    Route::get('/encuesta/{encuesta}/editar', [EncuestaController::class, 'edit'])->name('encuesta.edit');
+    Route::get('/encuesta/{encuesta}/respuestas', [EncuestaController::class, 'view'])->name('encuesta.view');
+
     // ==============================
     // Dashboard
     // ==============================
@@ -26,11 +48,6 @@ Route::middleware(['auth'])->group(function () {
     // MÓDULO ÁREAS
     // ==============================
     Route::get('/area', fn() => view('area.index'))->name('area.index');
-
-    // ==============================
-    // MÓDULO NIVEL DE SATISFACCIÓN
-    // ==============================
-    Route::get('/nivel_satisfaccion', fn() => view('nivel_satisfaccion.index'))->name('nivel_satisfaccion.index');
 
     // ==============================
     // MÓDULO ESPECIALIDAD
@@ -48,26 +65,32 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tipo-citas', [TipoCitaController::class, 'index'])->name('tipoCita.index');
 
     // ==============================
-    // MÓDULO ENCUESTAS
+    // MÓDULO USUARIOS
     // ==============================
-    Route::get('/encuestas', [EncuestaController::class, 'index'])->name('encuesta.index');
-    Route::get('/encuestas/crear', [EncuestaController::class, 'create'])->name('encuesta.create');
-    Route::get('/encuesta/{encuesta}/editar', [EncuestaController::class, 'edit'])->name('encuesta.edit');
-    Route::get('/encuesta/{encuesta}/respuestas', [EncuestaController::class, 'view'])->name('encuesta.view');
-    Route::get('/encuesta/{encuesta}/responder', [EncuestaController::class, 'response'])->name('encuesta.response');
-
-
     Route::get('/usuarios', [UserController::class, 'index'])->name('user.index');
     Route::get('/usuarios/crear', [UserController::class, 'create'])->name('user.create');
     Route::get('/usuarios/{user}/editar', [UserController::class, 'edit'])->name('user.edit');
 
+    // ==============================
     // Informe PDF
-    Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])
-     ->name('informes.encuestas.pdf');
+    // ==============================
+    Route::get('informes/encuestas/{encuesta}/pdf', [InformeExportPdfController::class, 'exportPdf'])->name('informes.encuestas.pdf');
+
 });
 
-    // Dashboard
+Route::middleware([SuperAuth::class])->group(function () {
+
     // ==============================
-    Route::get('/BTC', [BitacoraController::class, 'index'])->name('bitacora');
+    // MÓDULO NIVEL DE SATISFACCIÓN
+    // ==============================
+    Route::get('/nivel_satisfaccion', fn() => view('nivel_satisfaccion.index'))->name('nivel_satisfaccion.index');
+
+    // ==============================
+    // Bitacora
+    // ==============================
+    Route::get('/bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
+
+});
+
 
 

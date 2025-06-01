@@ -20,6 +20,5 @@ class AreaSeeder extends Seeder
             ['nombreArea' => 'Laboratorio','estado' => 1],
             ['nombreArea' => 'Farmacia',   'estado' => 1],
         ]);
-        Area::factory()->count(20)->create(); //20 aleatorias
     }
 }
