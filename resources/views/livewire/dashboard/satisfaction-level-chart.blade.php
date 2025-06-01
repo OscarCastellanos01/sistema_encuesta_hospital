@@ -3,12 +3,15 @@
         <!-- Encabezado -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-gray-800">Niveles de Satisfacción</h2>
-            <select wire:model="selectedPeriod" 
-                    class="border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @foreach ($periods as $value => $label)
-                    <option value="{{ $value }}">{{ $label }}</option>
-                @endforeach
-            </select>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-600">{{ $currentPeriodText }}</span>
+                <select wire:model.live="selectedPeriod" 
+                        class="border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    @foreach($periods as $value => $label)
+                        <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="grid grid-cols-1 gap-6">
         <!-- Listado detallado -->

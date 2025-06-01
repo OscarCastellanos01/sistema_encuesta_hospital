@@ -6,17 +6,24 @@ use Livewire\Component;
 use App\Models\EncuestaRespuesta;
 use App\Models\RegistroFacilitador;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class FacilitatorActivity extends Component
 {
     public $timeRange = 'month';
+    public $currentPeriodText = '';
     
-    protected $queryString = ['timeRange']; // Para mantener el estado en la URL
+    protected $queryString = ['timeRange'];
+    
+    public function mount()
+    {
+        $this->updateCurrentPeriodText();
+    }
     
     public function updatedTimeRange($value)
     {
-        // Este método se ejecutará automáticamente cuando cambie el valor
-        $this->dispatch('refreshStats'); // Opcional: para notificar a otros componentes
+        $this->updateCurrentPeriodText();
+        $this->dispatch('refreshStats');
     }
     
     public function render()
@@ -30,13 +37,33 @@ class FacilitatorActivity extends Component
             'activity' => $activity,
             'maxDailyCount' => $maxDailyCount,
             'topFacilitators' => $topFacilitators,
+            'currentPeriodText' => $this->currentPeriodText,
             'timeRanges' => [
+                'today' => 'Hoy',
                 'week' => 'Esta semana',
                 'month' => 'Este mes',
-                'quarter' => 'Este trimestre',
-                'year' => 'Este año'
+                'last_month' => 'Mes anterior',
+                'year' => 'Este año',
+                'all' => 'Todos'
             ]
         ]);
+    }
+
+    protected function updateCurrentPeriodText()
+    {
+        $text = [
+            'today' => 'Hoy (' . Carbon::today()->format('d/m/Y') . ')',
+            'week' => 'Esta semana (' . 
+                      Carbon::now()->startOfWeek()->format('d/m/Y') . ' - ' . 
+                      Carbon::now()->endOfWeek()->format('d/m/Y') . ')',
+            'month' => 'Este mes (' . Carbon::now()->format('F Y') . ')',
+            'last_month' => 'Mes anterior (' . 
+                           Carbon::now()->subMonthNoOverflow()->format('F Y') . ')',
+            'year' => 'Este año (' . Carbon::now()->format('Y') . ')',
+            'all' => 'Todos los registros'
+        ][$this->timeRange] ?? '';
+
+        $this->currentPeriodText = $text;
     }
 
     protected function getFacilitatorActivity()
@@ -54,29 +81,44 @@ class FacilitatorActivity extends Component
         return $query->get()
             ->map(function ($item) {
                 return [
-                    'date' => \Carbon\Carbon::parse($item->date)->format('d M Y'), // Mejor formato de fecha
+                    'date' => Carbon::parse($item->date)->format('d M Y'),
                     'count' => $item->count,
-                    'raw_date' => $item->date // Mantenemos la fecha original para ordenamiento
+                    'raw_date' => $item->date
                 ];
             })
-            ->sortBy('raw_date') // Ordenar por fecha
+            ->sortBy('raw_date')
             ->values();
     }
 
     protected function applyTimeFilter($query)
     {
         switch($this->timeRange) {
+            case 'today':
+                $query->whereDate('created_at', Carbon::today());
+                break;
             case 'week':
-                $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                $query->whereBetween('created_at', [
+                    Carbon::now()->startOfWeek(),
+                    Carbon::now()->endOfWeek()
+                ]);
                 break;
             case 'month':
-                $query->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()]);
+                $query->whereBetween('created_at', [
+                    Carbon::now()->startOfMonth(),
+                    Carbon::now()->endOfMonth()
+                ]);
                 break;
-            case 'quarter':
-                $query->whereBetween('created_at', [now()->startOfQuarter(), now()->endOfQuarter()]);
+            case 'last_month':
+                $query->whereBetween('created_at', [
+                    Carbon::now()->subMonthNoOverflow()->startOfMonth(),
+                    Carbon::now()->subMonthNoOverflow()->endOfMonth()
+                ]);
                 break;
             case 'year':
-                $query->whereBetween('created_at', [now()->startOfYear(), now()->endOfYear()]);
+                $query->whereBetween('created_at', [
+                    Carbon::now()->startOfYear(),
+                    Carbon::now()->endOfYear()
+                ]);
                 break;
         }
     }
