@@ -251,7 +251,7 @@
                 <span>Usuarios</span>
             </a>
 
-            <a
+            {{-- <a
                 href="{{ route('bitacora.index') }}"
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
@@ -277,7 +277,7 @@
                     <line x1="6" y1="5"  x2="6" y2="19" />
                 </svg>
                 <span>Bitácora</span>
-            </a>
+            </a> --}}
         </nav>
         <div class="p-4 border-t">
             <form method="POST" action="{{ route('login.destroy') }}">
