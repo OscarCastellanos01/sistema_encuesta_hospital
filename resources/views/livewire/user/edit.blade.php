@@ -54,12 +54,12 @@
                     <x-select
                         label="Rol"
                         wire:model.defer="id_rol"
-                        placeholder="{{ optional($roles->firstWhere('id', $id_rol))->nombre ?? 'Selecciona un rol' }}"
+                        placeholder="Selecciona un rol"
                     >
                         @foreach($roles as $rol)
                             <x-select.option
-                                value="{{ $rol->id }}"
-                                label="{{ $rol->nombre }}"
+                                :value="$rol->id"
+                                :label="$rol->nombre"
                             />
                         @endforeach
                     </x-select>
@@ -73,10 +73,10 @@
                     <x-select
                         label="Estado"
                         wire:model.defer="estado_usuario"
-                        placeholder="{{ $estado_usuario == 1 ? 'Activo' : 'Inactivo' }}"
+                        placeholder="Selecciona un estado"
                     >
-                        <x-select.option value="1" label="Activo" />
-                        <x-select.option value="0" label="Inactivo" />
+                        <x-select.option :value="1" label="Activo" />
+                        <x-select.option :value="0" label="Inactivo" />
                     </x-select>
                     @error('estado_usuario')
                         <span class="text-xs text-red-600">{{ $message }}</span>

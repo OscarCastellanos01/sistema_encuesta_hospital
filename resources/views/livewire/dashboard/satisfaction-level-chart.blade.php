@@ -27,9 +27,9 @@
                                     <p class="text-sm text-gray-600">{{ $level->porcentaje }}% satisfacción</p>
                                 </div>
                             </div>
-                            <span class="px-2 py-1 text-xs font-medium rounded-full" style="color: {{ $level->color }}; background-color: white;">
+                            {{-- <span class="px-2 py-1 text-xs font-medium rounded-full" style="color: {{ $level->color }}; background-color: white;">
                                 {{ $level->codigo }}
-                            </span>
+                            </span> --}}
                         </div>
                         @if($totalResponses > 0)
                             <div class="mt-3 flex items-center justify-between text-sm">

@@ -229,7 +229,7 @@
                 class="
                     flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition
                     {{
-                        request()->routeIs('user.index')
+                        request()->routeIs(['user.index', 'user.create', 'user.edit'])
                         ? 'bg-gray-200 text-primary-700'
                         : 'text-gray-700 hover:bg-gray-100'
                     }}
