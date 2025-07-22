@@ -21,6 +21,11 @@ class SessionController extends Controller
             return back()->with('error', 'El correo o la contraseña es incorrecto.');
         }
 
+        if (Auth::user()->estado_usuario != 1) {
+            Auth::logout();
+            return back()->with('error', 'El usuario está inactivo. Contacte al administrador.');
+        }
+
         $rol = Auth::user()->id_rol;
 
         if ($rol == 1) {
