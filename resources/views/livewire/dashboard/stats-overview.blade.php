@@ -5,7 +5,7 @@
         <x-card title="Encuestas Totales" icon="document-text" class="hover:shadow-lg transition-shadow">
             <div class="flex items-center justify-between">
                 <div class="text-3xl font-bold text-primary-600">{{ $totalSurveys }}</div>
-                <x-badge positive label="Total" />
+                <x-badge label="Total" />
             </div>
             <x-slot name="footer">
             
@@ -15,8 +15,8 @@
         <!-- Respuestas -->
         <x-card title="Respuestas" icon="check-circle" class="hover:shadow-lg transition-shadow">
             <div class="flex items-center justify-between">
-                <div class="text-3xl font-bold text-green-600">{{ $totalResponses }}</div>
-                <x-badge green label="Recibidas" />
+                <div class="text-3xl font-bold text-primary-600">{{ $totalResponses }}</div>
+                <x-badge label="Recibidas" />
             </div>
             <x-slot name="footer">
                 
@@ -27,8 +27,8 @@
         <!-- Facilitadores Activos -->
         <x-card title="Facilitadores Activos" icon="users" class="hover:shadow-lg transition-shadow">
             <div class="flex items-center justify-between">
-                <div class="text-3xl font-bold text-yellow-600">{{ $activeFacilitators }}</div>
-                <x-badge yellow label="Activos" />
+                <div class="text-3xl font-bold text-primary-600">{{ $activeFacilitators }}</div>
+                <x-badge label="Activos" />
             </div>
             <x-slot name="footer">
                
@@ -38,8 +38,8 @@
         <!-- Satisfacción Promedio -->
         <x-card title="Satisfacción" icon="emoji-happy" class="hover:shadow-lg transition-shadow">
             <div class="flex items-center justify-between">
-                <div class="text-3xl font-bold text-red-600">{{ $satisfactionRate }}/100</div>
-                <x-badge red label="Promedio" />
+                <div class="text-3xl font-bold text-primary-600">{{ $satisfactionRate }}/100</div>
+                <x-badge label="Promedio" />
             </div>
             <x-slot name="footer">
                
