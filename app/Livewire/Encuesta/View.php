@@ -20,7 +20,6 @@ class View extends Component
     public $edadPaciente;
     public $sexoPaciente;
     public array $answers = [];
-    public bool $terms = false;
     
     protected function rules(): array
     {
@@ -28,7 +27,6 @@ class View extends Component
             'especialidad' => 'required',
             'edadPaciente' => 'required|integer|min:0',
             'sexoPaciente' => 'required|in:1,2',
-            'terms'        => 'accepted',
         ];
 
         // Obtengo los IDs de las preguntas de esta encuesta
@@ -149,7 +147,7 @@ class View extends Component
     
     public function resetForm()
     {
-        $this->reset(['answers', 'terms', 'especialidad', 'edadPaciente', 'sexoPaciente']);
+        $this->reset(['answers', 'especialidad', 'edadPaciente', 'sexoPaciente']);
         $this->resetErrorBag();
         $this->resetValidation();
     }

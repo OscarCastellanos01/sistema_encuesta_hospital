@@ -162,13 +162,13 @@
         </div>
 
         {{-- Toggle de términos y condicioens --}}
-        <div class="mt-8 flex items-center space-x-3">
+        {{-- <div class="mt-8 flex items-center space-x-3">
             <x-toggle wire:model.live="terms" md />
             <span class="text-slate-800">Acepto los términos y condiciones</span>
         </div>
         @error('terms')
             <span class="text-xs text-red-600 mt-2 block">{{ $message }}</span>
-        @enderror
+        @enderror --}}
 
         {{-- Botones --}}
         <div class="mt-8 flex flex-col md:flex-row md:justify-end md:space-x-4 space-y-4 md:space-y-0">
@@ -189,7 +189,7 @@
                 icon="paper-airplane"
                 wire:click="submit"
                 class="w-full md:w-auto"
-                :disabled="!$terms"
+                {{-- :disabled="!$terms" --}}
                 spinner="submit"
                 spinner-target="submit"
                 wire:loading.attr="disabled"
