@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titulo', 'Encuenta')
+@section('titulo', 'Encuesta')
 
 @section('contenido')
     @livewire('encuesta.view', ['encuesta' => $encuesta], key($encuesta->id))
