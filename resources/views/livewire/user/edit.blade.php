@@ -18,18 +18,12 @@
                         label="Nombre Completo"
                         wire:model.defer="name"
                     />
-                    @error('name')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
                 <div>
                     <x-input
                         label="Correo Electrónico"
                         wire:model.defer="email"
                     />
-                    @error('email')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
 
@@ -44,9 +38,6 @@
                         wire:model.defer="password"
                         placeholder="Dejar en blanco para no cambiar"
                     />
-                    @error('password')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 {{-- Select Rol (muestra el actual en el placeholder) --}}
@@ -63,9 +54,6 @@
                             />
                         @endforeach
                     </x-select>
-                    @error('id_rol')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 {{-- Select Estado (muestra el actual en el placeholder) --}}
