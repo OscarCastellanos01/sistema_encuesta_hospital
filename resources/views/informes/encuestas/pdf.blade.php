@@ -180,7 +180,7 @@
         <p><strong>Elaborado por:</strong><br>
         Licda.&nbsp;Vanessa&nbsp;Yureyda&nbsp;Contreras&nbsp;Lázaro – Coordinadora/UISAU
         </p>
-        <p><strong>Vo. Bo.:</strong> Dra.&nbsp;Mara&nbsp;Judith&nbsp;Gómez&nbsp;Balcárcel – Directora</p>
+        {{-- <p><strong>Vo. Bo.:</strong> Dra.&nbsp;Mara&nbsp;Judith&nbsp;Gómez&nbsp;Balcárcel – Directora</p> --}}
     </section>
 </body>
 </html>

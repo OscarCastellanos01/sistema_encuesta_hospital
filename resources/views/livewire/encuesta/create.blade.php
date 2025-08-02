@@ -18,28 +18,22 @@
             <div class="grid gap-4 md:grid-cols-2">
                 <div>
                     <x-input 
-                        label="Título de la Encuesta"
+                        label="Título de la Encuesta *"
                         wire:model.defer="tituloEncuesta"
                     />
-                    @error('tituloEncuesta')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
                 <div>
                     <x-input 
                         label="Descripción"
                         wire:model.defer="descripcionEncuesta" 
                     />
-                    @error('descripcionEncuesta')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
     
             <div class="grid gap-4 md:grid-cols-3">
                 <div>
                     <x-select 
-                        label="Área"
+                        label="Área *"
                         placeholder="Selecciona área"
                         wire:model.defer="idArea"
                     >
@@ -50,14 +44,11 @@
                             />
                         @endforeach
                     </x-select>
-                    @error('idArea')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
     
                 <div>
                     <x-select 
-                        label="Tipo de Encuesta"
+                        label="Tipo de Encuesta *"
                         placeholder="Selecciona tipo"
                         wire:model.defer="idTipoEncuesta"
                     >
@@ -68,14 +59,11 @@
                             />
                         @endforeach
                     </x-select>
-                    @error('idTipoEncuesta')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
     
                 <div>
                     <x-select 
-                        label="Tipo de Cita"
+                        label="Tipo de Cita *"
                         placeholder="Selecciona cita"
                         wire:model.defer="idTipoCita"
                     >
@@ -86,9 +74,6 @@
                             />
                         @endforeach
                     </x-select>
-                    @error('idTipoCita')
-                        <span class="text-xs text-red-600">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
     
@@ -109,16 +94,14 @@
                                 {{ $errors->has("questions.{$idx}.titulo") ? 'ring-2 ring-red-400' : '' }}">
                             
                             <x-input 
-                                label="Pregunta {{ $idx + 1 }}"
+                                label="Pregunta {{ $idx + 1 }} *"
                                 placeholder="Escribe la pregunta"
                                 wire:model.defer="questions.{{ $idx }}.titulo"
                             />
-                            @error("questions.{$idx}.titulo")
-                                <span class="text-xs text-red-600">{{ $message }}</span>
-                            @enderror
             
                             <x-select 
-                                label="Tipo de Pregunta"
+                                class="mt-5"
+                                label="Tipo de Pregunta *"
                                 wire:model.live="questions.{{ $idx }}.tipoPregunta"
                                 :options="[
                                     ['value' => 'nivel_satisfaccion', 'label' => 'Nivel de Satisfacción'],
